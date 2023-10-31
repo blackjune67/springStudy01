@@ -13,9 +13,8 @@ import org.springframework.context.annotation.FilterType;
 )
 public class AutoAppConfig {
 
-    /*@Bean(name = "memmoryMemberRepository")
+/*    @Bean(name = "memmoryMemberRepository")
     MemberRepository memberRepository() {
         return new MemoryMemberRepository();
     }*/
-    
 }
