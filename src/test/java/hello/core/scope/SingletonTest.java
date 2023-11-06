@@ -22,7 +22,7 @@ public class SingletonTest {
         ac.close();
     }
 
-    @Scope("singleton")
+    @Scope("singleton") // * name 지정을 하지 않으면 singleton이 default
     static class SingletonBean {
 
         @PostConstruct
@@ -35,6 +35,5 @@ public class SingletonTest {
         void destroy() {
             System.out.println("SingletonBean.destroy");
         }
-
     }
 }
