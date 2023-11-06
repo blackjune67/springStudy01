@@ -5,8 +5,11 @@ import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -30,18 +33,26 @@ public class SingletonWithPrototypeTest {
         ClientBean clientBean1 = ac.getBean(ClientBean.class);
         int logic1 = clientBean1.logic();
         System.out.println("logic1 = " + logic1);
+        assertThat(logic1).isEqualTo(1);
+
         ClientBean clientBean2 = ac.getBean(ClientBean.class);
         int logic2 = clientBean2.logic();
         System.out.println("logic2 = " + logic2);
-        assertThat(logic1).isNotEqualTo(logic2);
+        assertThat(logic2).isEqualTo(1);
+//        assertThat(logic1).isNotEqualTo(logic2);
     }
 
     @Scope("singleton")
-    @RequiredArgsConstructor
+    @Component
+//    @RequiredArgsConstructor
     static class ClientBean {
-        private final PrototypeBean prototypeBean;
+//        private final PrototypeBean prototypeBean;
+
+        @Autowired
+        private ObjectProvider<PrototypeBean> beanObjectProvider;
 
         public int logic() {
+            PrototypeBean prototypeBean = beanObjectProvider.getObject();
             prototypeBean.addCount();
             return prototypeBean.getCount();
         }
